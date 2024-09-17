@@ -17,14 +17,14 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.bd_tienda_test.Model.TareasModel;
-import com.bd_tienda_test.Model.UsuarioModel;
-import com.bd_tienda_test.Repository.TareaRepository;
-import com.bd_tienda_test.Service.imp.TareaServiceimp;
-import com.bd_tienda_test.dto.FiltroDetalle;
-import com.bd_tienda_test.dto.FiltrosDto;
-import com.bd_tienda_test.dto.RequestResponseAgregarTarea;
-import com.bd_tienda_test.dto.ResponseMessage;
+import com.tienda.Model.TareasModel;
+import com.tienda.Model.UsuarioModel;
+import com.tienda.Repository.TareaRepository;
+import com.tienda.Service.imp.TareaServiceimp;
+import com.tienda.dto.FiltroDetalle;
+import com.tienda.dto.FiltrosDto;
+import com.tienda.dto.RequestCreateTarea;
+import com.tienda.dto.ResponseMessage;
 
 public class TareaTestimp {
 	@Mock
@@ -50,7 +50,7 @@ public class TareaTestimp {
 		  ResponseEntity<Object>response=mockusuarioimp.agregarUsuario(RequestResponseAgregar.builder().build());
 		  assertEquals(response.getBody().getClass(),RequestResponseAgregar.class);
 */	
-        RequestResponseAgregarTarea request = new RequestResponseAgregarTarea();
+        RequestCreateTarea request = new RequestCreateTarea();
         request.setId_Tarea("04");
         request.setNombre_Tarea("proyectoz");
         request.setMes_Entrega("abril");
@@ -74,7 +74,7 @@ public class TareaTestimp {
 			  Mockito.when(mockrepo.save(Mockito.anyObject())).thenReturn(usuariomodel);
 			  ResponseEntity<Object>response=mockusuarioimp.agregarUsuario(RequestResponseAgregar.builder().build());
 			  assertEquals(response.getBody().getClass(),RequestResponseAgregar.class);*/
-			RequestResponseAgregarTarea request = new RequestResponseAgregarTarea();
+			RequestCreateTarea request = new RequestCreateTarea();
 			String cedula="123";
 	        request.setId_Tarea("123");
 	        request.setNombre_Tarea("proyecto32");
@@ -105,11 +105,11 @@ public class TareaTestimp {
 		        when(mockrepo.findById(cedula)).thenReturn(Optional.of(tarea));
 
 		        // When
-		        ResponseEntity<RequestResponseAgregarTarea> response = mocktareaimp.consultarTareaid(cedula);
+		        ResponseEntity<RequestCreateTarea> response = mocktareaimp.consultarTareaid(cedula);
 
 		        // Then
 		        assertEquals(HttpStatus.OK, response.getStatusCode());
-		        RequestResponseAgregarTarea requestResponseAgregarTarea = response.getBody();
+		        RequestCreateTarea requestResponseAgregarTarea = response.getBody();
 		        assertEquals(tarea.getId_Tarea(), requestResponseAgregarTarea.getId_Tarea());
 		        assertEquals(tarea.getNombre_Tarea(), requestResponseAgregarTarea.getNombre_Tarea());
 		        assertEquals(tarea.getMes_Entrega(), requestResponseAgregarTarea.getMes_Entrega());
@@ -154,7 +154,7 @@ public class TareaTestimp {
 
 			    // Then
 			    assertEquals(HttpStatus.OK, result.getStatusCode());
-			    List<RequestResponseAgregarTarea> list = (List<RequestResponseAgregarTarea>) result.getBody();
+			    List<RequestCreateTarea> list = (List<RequestCreateTarea>) result.getBody();
 			    assertEquals(1, list.size());
 			    assertEquals("123", list.get(0).getId_Tarea());
 			    assertEquals("proxy", list.get(0).getNombre_Tarea());

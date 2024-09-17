@@ -1,4 +1,4 @@
-package com.bd_tienda_test.Controlador;
+package com.tienda.Controlador;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bd_tienda_test.Service.TareaService;
-import com.bd_tienda_test.Model.TareasModel;
-import com.bd_tienda_test.dto.FiltrosDto;
-import com.bd_tienda_test.dto.RequestResponseAgregarTarea;
-import com.bd_tienda_test.dto.ResponseMessage;
+import com.tienda.Service.TareaService;
+import com.tienda.Model.TareasModel;
+import com.tienda.dto.FiltrosDto;
+import com.tienda.dto.RequestCreateTarea;
+import com.tienda.dto.ResponseMessage;
 @RestController
 @RequestMapping("/api")
 public class TareaController {
@@ -30,17 +30,17 @@ public class TareaController {
 		return servicetarea.listarTarea();
 	}
 	@PostMapping("/agregarTarea")
-	public ResponseEntity<Object> AgregarTarea(@RequestBody RequestResponseAgregarTarea request) {
+	public ResponseEntity<Object> AgregarTarea(@RequestBody RequestCreateTarea request) {
 		
 		return servicetarea.agregarTarea(request);
 	}
 	@PutMapping("/modificarTarea/{id}")
-	public ResponseEntity<Object> modificarTarea (@PathVariable String id,@RequestBody RequestResponseAgregarTarea request) {
+	public ResponseEntity<Object> modificarTarea (@PathVariable String id,@RequestBody RequestCreateTarea request) {
 		
 		return servicetarea.modificarTarea(id,request );
 	}
 	@GetMapping ("/consultarTarea/{id}")
-	public ResponseEntity<RequestResponseAgregarTarea> consultarTareaPorid (@PathVariable String id)
+	public ResponseEntity<RequestCreateTarea> consultarTareaPorid (@PathVariable String id)
 	{
 		return  servicetarea.consultarTareaid(id);
 	}

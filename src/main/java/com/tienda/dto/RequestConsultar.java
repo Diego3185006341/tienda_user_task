@@ -1,8 +1,4 @@
-package com.bd_tienda_test.dto;
-
-import java.util.List;
-
-import com.bd_tienda_test.Model.UsuarioModel;
+package com.tienda.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

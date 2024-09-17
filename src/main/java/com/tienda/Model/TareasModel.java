@@ -1,4 +1,4 @@
-package com.bd_tienda_test.Model;
+package com.tienda.Model;
 
 
 import javax.persistence.*;

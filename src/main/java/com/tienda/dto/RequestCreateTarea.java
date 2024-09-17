@@ -1,7 +1,4 @@
-package com.bd_tienda_test.dto;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+package com.tienda.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Builder
-public class RequestResponseAgregarTarea {
+public class RequestCreateTarea {
 	private String id_Tarea;
 	private String nombre_Tarea;
 	private String mes_Entrega;

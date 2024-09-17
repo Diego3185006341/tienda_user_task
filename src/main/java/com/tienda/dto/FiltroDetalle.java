@@ -1,7 +1,4 @@
-package com.bd_tienda_test.dto;
-import java.util.List;
-import java.util.Map;
-
+package com.tienda.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +8,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FiltrosDto {
+public class FiltroDetalle {
 
-	private List<FiltroDetalle> filtros;
+	private String parametro;
+
+	private String valor;
 }

@@ -1,4 +1,5 @@
-package com.bd_tienda_test.dto;
+package com.tienda.dto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FiltroDetalle {
+public class ResponseMessage {
 
-	private String parametro;
 
-	private String valor;
+	private String Message;
 }

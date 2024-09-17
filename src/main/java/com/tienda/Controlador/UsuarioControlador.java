@@ -1,4 +1,4 @@
-package com.bd_tienda_test.Controlador;
+package com.tienda.Controlador;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.bd_tienda_test.Service.IUsuarioService;
-import com.bd_tienda_test.Model.UsuarioModel;
-import com.bd_tienda_test.dto.FiltrosDto;
-import com.bd_tienda_test.dto.RequestResponseAgregar;
-import com.bd_tienda_test.dto.ResponseMessage;
+import com.tienda.Service.IUsuarioService;
+import com.tienda.Model.UsuarioModel;
+import com.tienda.dto.FiltrosDto;
+import com.tienda.dto.RequestCreateUser;
+import com.tienda.dto.ResponseMessage;
 
 
 
@@ -81,20 +81,20 @@ public class UsuarioControlador {
 		
 	}
 	@PostMapping("/agregarUsuario")
-	public ResponseEntity<Object> AgregarUsuario (@RequestBody RequestResponseAgregar request) {
+	public ResponseEntity<Object> AgregarUsuario (@RequestBody RequestCreateUser request) {
 		
 		return serviceUsuario.agregarUsuario(request);
 	}	
 
 	@PutMapping("/modificarUsuario/{id}")
-	public ResponseEntity<Object> modificarUsuario (@PathVariable String id,@RequestBody RequestResponseAgregar request) {
+	public ResponseEntity<Object> modificarUsuario (@PathVariable String id,@RequestBody RequestCreateUser request) {
 		
 		return serviceUsuario.modificarUsuario(id,request );
 	}
 	
 
 	@GetMapping ("/consultarUsuario/{Cedula}")
-	public ResponseEntity<RequestResponseAgregar> consultarUsuarioPorCedula (@PathVariable String Cedula)
+	public ResponseEntity<RequestCreateUser> consultarUsuarioPorCedula (@PathVariable String Cedula)
 	{
 		return  serviceUsuario.consultarusuario(Cedula);
 	}

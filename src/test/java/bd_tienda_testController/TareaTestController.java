@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
-import com.bd_tienda_test.Model.UsuarioModel;
+import com.tienda.Model.UsuarioModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,13 +15,13 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.bd_tienda_test.Controlador.TareaController;
-import com.bd_tienda_test.Service.TareaService;
-import com.bd_tienda_test.Model.TareasModel;
-import com.bd_tienda_test.dto.FiltroDetalle;
-import com.bd_tienda_test.dto.FiltrosDto;
-import com.bd_tienda_test.dto.RequestResponseAgregarTarea;
-import com.bd_tienda_test.dto.ResponseMessage;
+import com.tienda.Controlador.TareaController;
+import com.tienda.Service.TareaService;
+import com.tienda.Model.TareasModel;
+import com.tienda.dto.FiltroDetalle;
+import com.tienda.dto.FiltrosDto;
+import com.tienda.dto.RequestCreateTarea;
+import com.tienda.dto.ResponseMessage;
 
 public class TareaTestController {
 	@Mock
@@ -40,7 +40,7 @@ public class TareaTestController {
 	}
 	@Test
 	 void agregarTarea(){
-		RequestResponseAgregarTarea request = new RequestResponseAgregarTarea();
+		RequestCreateTarea request = new RequestCreateTarea();
 	    request.setId_Tarea("123");
 	    request.setNombre_Tarea("proxy");
 	    request.setMes_Entrega("marzo");
@@ -48,24 +48,24 @@ public class TareaTestController {
 	    Mockito.when(service.agregarTarea(request)).thenReturn(ResponseEntity.ok().body(request));
 	    ResponseEntity<Object>respuesta=controller.AgregarTarea(request);
 	    assertEquals(respuesta.getStatusCode(), HttpStatus.OK);
-	    assertEquals(respuesta.getBody().getClass(),RequestResponseAgregarTarea.class);
+	    assertEquals(respuesta.getBody().getClass(), RequestCreateTarea.class);
 	    assertEquals(request, respuesta.getBody());
 	}
 	@Test
 	void modificarTarea(){
-	RequestResponseAgregarTarea request = new RequestResponseAgregarTarea();
+	RequestCreateTarea request = new RequestCreateTarea();
 	String Cedula="01233";
-	Mockito.when(service.modificarTarea(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestResponseAgregarTarea.builder().build()));
+	Mockito.when(service.modificarTarea(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestCreateTarea.builder().build()));
 	ResponseEntity<Object>respuesta=controller.modificarTarea(Cedula,request);
 	assertEquals(HttpStatus.OK, respuesta.getStatusCode());
-	assertEquals(RequestResponseAgregarTarea.class, respuesta.getBody().getClass());
+	assertEquals(RequestCreateTarea.class, respuesta.getBody().getClass());
 	}
 	@Test
 	void consultarTarea(){
 		String cedula="00001";
-		RequestResponseAgregarTarea requestResponseAgregar = new RequestResponseAgregarTarea();
+		RequestCreateTarea requestResponseAgregar = new RequestCreateTarea();
 		Mockito.when(service.consultarTareaid(cedula)).thenReturn(ResponseEntity.ok(requestResponseAgregar));
-		ResponseEntity<RequestResponseAgregarTarea> respuesta=controller.consultarTareaPorid(cedula);
+		ResponseEntity<RequestCreateTarea> respuesta=controller.consultarTareaPorid(cedula);
 		assertEquals(respuesta.getBody(), requestResponseAgregar);
 		}
 	@Test

@@ -1,4 +1,4 @@
-package com.bd_tienda_test.Service.imp;
+package com.tienda.Service.imp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,34 +6,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.tienda.Model.UsuarioModel;
+import com.tienda.Service.ITiendaService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.bd_tienda_test.Service.TareaService;
-import com.bd_tienda_test.Model.TareasModel;
-import com.bd_tienda_test.Repository.TareaRepository;
-import com.bd_tienda_test.dto.FiltroDetalle;
-import com.bd_tienda_test.dto.FiltrosDto;
-import com.bd_tienda_test.dto.RequestResponseAgregarTarea;
-import com.bd_tienda_test.dto.ResponseMessage;
+import com.tienda.Service.TareaService;
+import com.tienda.Model.TareasModel;
+import com.tienda.Repository.TareaRepository;
+import com.tienda.dto.FiltroDetalle;
+import com.tienda.dto.FiltrosDto;
+import com.tienda.dto.RequestCreateTarea;
+import com.tienda.dto.ResponseMessage;
 
 import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
+@AllArgsConstructor
 public class TareaServiceimp implements TareaService{
 	@Autowired
 	TareaRepository tarear;
+	public final ITiendaService iTiendaService;
 
 	@Override
 	public ResponseEntity<List<TareasModel>> listarTarea() {
 		// TODO Auto-generated method stub
 			try {
-			List<TareasModel>usuario=new ArrayList<TareasModel>();
+			List<TareasModel> tarea =new ArrayList<TareasModel>();
 			
-			tarear.findAll().forEach(usuario ::add);
-			return new ResponseEntity<>(usuario,HttpStatus.OK); 
+			tarear.findAll().forEach(tarea ::add);
+			return new ResponseEntity<>(tarea,HttpStatus.OK);
 			
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -42,10 +47,10 @@ public class TareaServiceimp implements TareaService{
 	}
 
 	@Override
-	public ResponseEntity<Object> agregarTarea(RequestResponseAgregarTarea request) {
+	public ResponseEntity<Object> agregarTarea(RequestCreateTarea request) {
 		// TODO Auto-generated method stub
 		try {
-			Optional<TareasModel>u=tarear.findById(request.getId_Tarea());
+			Optional<TareasModel> u = tarear.findById(request.getId_Tarea());
 				
 			if(u.isPresent()) {
 				
@@ -53,11 +58,13 @@ public class TareaServiceimp implements TareaService{
 			
 			}else {
 
-			tarear.save(TareasModel.builder()
+				UsuarioModel user = iTiendaService.getUsuario(request.getUsuario_cedula());
+
+				tarear.save(TareasModel.builder()
 					.id_Tarea(request.getId_Tarea())
 					.nombre_Tarea(request.getNombre_Tarea())
 					.mes_Entrega(request.getMes_Entrega())
-
+								.usuario(user)
 					.build());
 					
 			return new ResponseEntity<>(request,HttpStatus.CREATED);
@@ -65,12 +72,12 @@ public class TareaServiceimp implements TareaService{
 			
 			}	
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@Override
-	public ResponseEntity<RequestResponseAgregarTarea> consultarTareaid(String id) {
+	public ResponseEntity<RequestCreateTarea> consultarTareaid(String id) {
 		// TODO Auto-generated method stub
 		 try {
 			   Optional<TareasModel>u=tarear.findById(id);
@@ -81,7 +88,7 @@ public class TareaServiceimp implements TareaService{
 				}
 				else {
 					TareasModel consulta=u.get();
-					RequestResponseAgregarTarea respuesta=new RequestResponseAgregarTarea();
+					RequestCreateTarea respuesta=new RequestCreateTarea();
 					respuesta.setId_Tarea(consulta.getId_Tarea());
 					respuesta.setNombre_Tarea(consulta.getNombre_Tarea());
 					respuesta.setMes_Entrega(consulta.getMes_Entrega());
@@ -96,7 +103,7 @@ public class TareaServiceimp implements TareaService{
 	}
 
 	@Override
-	public ResponseEntity<Object> modificarTarea(String id,RequestResponseAgregarTarea request) {
+	public ResponseEntity<Object> modificarTarea(String id, RequestCreateTarea request) {
 		// TODO Auto-generated method stub
 		try {
 			Optional<TareasModel>u=tarear.findById(id);
@@ -157,8 +164,8 @@ public class TareaServiceimp implements TareaService{
 
 			List<TareasModel> consultaData = tarear.consultarTarea(nombre_tarea,mes_entrega);
 			
-			List<RequestResponseAgregarTarea> respuesta = new ArrayList<>();
-			consultaData.forEach(value -> respuesta.add(RequestResponseAgregarTarea.builder().id_Tarea(value.getId_Tarea())
+			List<RequestCreateTarea> respuesta = new ArrayList<>();
+			consultaData.forEach(value -> respuesta.add(RequestCreateTarea.builder().id_Tarea(value.getId_Tarea())
 					.nombre_Tarea(value.getNombre_Tarea()).mes_Entrega(value.getMes_Entrega())
 					.build()));
 

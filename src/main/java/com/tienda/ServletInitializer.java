@@ -1,4 +1,4 @@
-package com.bd_tienda_test;
+package com.tienda;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

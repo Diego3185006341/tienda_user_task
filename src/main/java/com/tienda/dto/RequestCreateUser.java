@@ -1,7 +1,6 @@
-package com.bd_tienda_test.dto;
+package com.tienda.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Builder
-public class RequestResponseAgregar {
+public class RequestCreateUser {
 	private String cedula_Usuario;
 	private String nombre_Usuario;
 	private String correo_Usuario;

@@ -4,24 +4,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 
-import com.bd_tienda_test.Model.UsuarioModel;
-import com.bd_tienda_test.Repository.UsuarioRepository;
-import com.bd_tienda_test.Service.imp.UsuarioServiceimp;
-import com.bd_tienda_test.dto.FiltroDetalle;
-import com.bd_tienda_test.dto.FiltrosDto;
-import com.bd_tienda_test.dto.RequestConsultar;
-import com.bd_tienda_test.dto.RequestResponseAgregar;
-import com.bd_tienda_test.dto.ResponseMessage;
+import com.tienda.Model.UsuarioModel;
+import com.tienda.Repository.UsuarioRepository;
+import com.tienda.Service.imp.UsuarioServiceimp;
+import com.tienda.dto.FiltroDetalle;
+import com.tienda.dto.FiltrosDto;
+import com.tienda.dto.RequestCreateUser;
+import com.tienda.dto.ResponseMessage;
 
 
 import static org.mockito.Mockito.*;
@@ -29,9 +23,7 @@ import static org.mockito.Mockito.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class UsuarioTestImp {
@@ -58,7 +50,7 @@ public class UsuarioTestImp {
 		  ResponseEntity<Object>response=mockusuarioimp.agregarUsuario(RequestResponseAgregar.builder().build());
 		  assertEquals(response.getBody().getClass(),RequestResponseAgregar.class);
 */	
-        RequestResponseAgregar request = new RequestResponseAgregar();
+        RequestCreateUser request = new RequestCreateUser();
         request.setCedula_Usuario("123");
         request.setNombre_Usuario("John Doe");
         request.setCorreo_Usuario("johndoe@example.com");
@@ -83,7 +75,7 @@ public class UsuarioTestImp {
 		  Mockito.when(mockrepo.save(Mockito.anyObject())).thenReturn(usuariomodel);
 		  ResponseEntity<Object>response=mockusuarioimp.agregarUsuario(RequestResponseAgregar.builder().build());
 		  assertEquals(response.getBody().getClass(),RequestResponseAgregar.class);*/
-		RequestResponseAgregar request = new RequestResponseAgregar();
+		RequestCreateUser request = new RequestCreateUser();
 		String cedula="123";
         request.setCedula_Usuario("123");
         request.setNombre_Usuario("John Doe");
@@ -118,11 +110,11 @@ public class UsuarioTestImp {
 	        when(mockrepo.findById(cedula)).thenReturn(Optional.of(usuario));
 
 	        // When
-	        ResponseEntity<RequestResponseAgregar> response = mockusuarioimp.consultarusuario(cedula);
+	        ResponseEntity<RequestCreateUser> response = mockusuarioimp.consultarusuario(cedula);
 
 	        // Then
 	        assertEquals(HttpStatus.OK, response.getStatusCode());
-	        RequestResponseAgregar requestResponseAgregar = response.getBody();
+	        RequestCreateUser requestResponseAgregar = response.getBody();
 	        assertEquals(usuario.getCedula_Usuario(), requestResponseAgregar.getCedula_Usuario());
 	        assertEquals(usuario.getNombre_Usuario(), requestResponseAgregar.getNombre_Usuario());
 	        assertEquals(usuario.getCorreo_Usuario(), requestResponseAgregar.getCorreo_Usuario());
@@ -181,7 +173,7 @@ public class UsuarioTestImp {
 
 		    // Then
 		    assertEquals(HttpStatus.OK, result.getStatusCode());
-		    List<RequestResponseAgregar> list = (List<RequestResponseAgregar>) result.getBody();
+		    List<RequestCreateUser> list = (List<RequestCreateUser>) result.getBody();
 		    assertEquals(1, list.size());
 		    assertEquals("123", list.get(0).getCedula_Usuario());
 		    assertEquals("John Doe", list.get(0).getNombre_Usuario());

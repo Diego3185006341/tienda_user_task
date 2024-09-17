@@ -1,4 +1,4 @@
-package com.bd_tienda_test.Service.imp;
+package com.tienda.Service.imp;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,14 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
-import com.bd_tienda_test.Service.IUsuarioService;
-import com.bd_tienda_test.Model.UsuarioModel;
-import com.bd_tienda_test.Repository.UsuarioRepository;
-import com.bd_tienda_test.dto.FiltroDetalle;
+import com.tienda.Service.IUsuarioService;
+import com.tienda.Model.UsuarioModel;
+import com.tienda.Repository.UsuarioRepository;
+import com.tienda.dto.FiltroDetalle;
 
-import com.bd_tienda_test.dto.FiltrosDto;
-import com.bd_tienda_test.dto.RequestResponseAgregar;
-import com.bd_tienda_test.dto.ResponseMessage;
+import com.tienda.dto.FiltrosDto;
+import com.tienda.dto.RequestCreateUser;
+import com.tienda.dto.ResponseMessage;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -87,7 +87,7 @@ public class UsuarioServiceimp implements IUsuarioService {
 
 
 	@Override
-	public ResponseEntity<Object> agregarUsuario(RequestResponseAgregar request) {
+	public ResponseEntity<Object> agregarUsuario(RequestCreateUser request) {
 		try {
 			Optional<UsuarioModel>u=usuarioR.findById(request.getCedula_Usuario());
 				
@@ -111,7 +111,7 @@ public class UsuarioServiceimp implements IUsuarioService {
 	}
 
 	@Override
-	public ResponseEntity<Object> modificarUsuario(String id,RequestResponseAgregar request) {
+	public ResponseEntity<Object> modificarUsuario(String id, RequestCreateUser request) {
 		try {
 			Optional<UsuarioModel>u=usuarioR.findById(id);
 				
@@ -155,7 +155,7 @@ public class UsuarioServiceimp implements IUsuarioService {
 }
 */
 
-	public ResponseEntity<RequestResponseAgregar> consultarusuario(String Cedula) {
+	public ResponseEntity<RequestCreateUser> consultarusuario(String Cedula) {
 		
 	   try {
 		   Optional<UsuarioModel>u=usuarioR.findById(Cedula);
@@ -166,7 +166,7 @@ public class UsuarioServiceimp implements IUsuarioService {
 			}
 			else {
 				UsuarioModel consulta=u.get();
-				RequestResponseAgregar respuesta=new RequestResponseAgregar();
+				RequestCreateUser respuesta=new RequestCreateUser();
 				respuesta.setCedula_Usuario(consulta.getCedula_Usuario());
 				respuesta.setClave_Usuario(consulta.getClave_Usuario());
 				respuesta.setCorreo_Usuario(consulta.getCorreo_Usuario());
@@ -205,8 +205,8 @@ public class UsuarioServiceimp implements IUsuarioService {
 
 			List<UsuarioModel> consultaData = usuarioR.consultaUsuarios(fecha_ingreso);
 			
-			List<RequestResponseAgregar> respuesta = new ArrayList<>();
-			consultaData.forEach(value -> respuesta.add(RequestResponseAgregar.builder().cedula_Usuario(value.getCedula_Usuario())
+			List<RequestCreateUser> respuesta = new ArrayList<>();
+			consultaData.forEach(value -> respuesta.add(RequestCreateUser.builder().cedula_Usuario(value.getCedula_Usuario())
 					.nombre_Usuario(value.getNombre_Usuario()).correo_Usuario(value.getCorreo_Usuario())
 					.usuario(value.getUsuario()).clave_Usuario(value.getClave_Usuario()).fecha_Ingreso(value.fecha_Ingreso).build()));
 

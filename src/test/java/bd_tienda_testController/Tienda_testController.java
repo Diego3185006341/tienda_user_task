@@ -9,13 +9,13 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.bd_tienda_test.Controlador.UsuarioControlador;
-import com.bd_tienda_test.Service.IUsuarioService;
-import com.bd_tienda_test.Model.UsuarioModel;
-import com.bd_tienda_test.dto.FiltroDetalle;
-import com.bd_tienda_test.dto.FiltrosDto;
-import com.bd_tienda_test.dto.RequestResponseAgregar;
-import com.bd_tienda_test.dto.ResponseMessage;
+import com.tienda.Controlador.UsuarioControlador;
+import com.tienda.Service.IUsuarioService;
+import com.tienda.Model.UsuarioModel;
+import com.tienda.dto.FiltroDetalle;
+import com.tienda.dto.FiltrosDto;
+import com.tienda.dto.RequestCreateUser;
+import com.tienda.dto.ResponseMessage;
 
 import lombok.Data;
 
@@ -43,7 +43,7 @@ public class Tienda_testController {
 	}
 	@Test
 	void agregarUsuarios(){
-		RequestResponseAgregar request = new RequestResponseAgregar();
+		RequestCreateUser request = new RequestCreateUser();
 	    request.setCedula_Usuario("123");
 	    request.setNombre_Usuario("John Doe");
 	    request.setCorreo_Usuario("johndoe@example.com");
@@ -53,24 +53,24 @@ public class Tienda_testController {
 	    Mockito.when(service.agregarUsuario(request)).thenReturn(ResponseEntity.ok().body(request));
 	    ResponseEntity<Object>respuesta=controller.AgregarUsuario(request);
 	    assertEquals(respuesta.getStatusCode(), HttpStatus.OK);
-	    assertEquals(respuesta.getBody().getClass(),RequestResponseAgregar.class);
+	    assertEquals(respuesta.getBody().getClass(), RequestCreateUser.class);
 	    assertEquals(request, respuesta.getBody());
 	}
 	@Test
 	void modificarUsuario(){
-	RequestResponseAgregar request = new RequestResponseAgregar();
+	RequestCreateUser request = new RequestCreateUser();
 	String Cedula="01233";
-	Mockito.when(service.modificarUsuario(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestResponseAgregar.builder().build()));
+	Mockito.when(service.modificarUsuario(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestCreateUser.builder().build()));
 	ResponseEntity<Object>respuesta=controller.modificarUsuario(Cedula,request);
 	assertEquals(HttpStatus.OK, respuesta.getStatusCode());
-	assertEquals(RequestResponseAgregar.class, respuesta.getBody().getClass());
+	assertEquals(RequestCreateUser.class, respuesta.getBody().getClass());
 	}
 	@Test
 	void consultarUsuario(){
 		String cedula="00001";
-		RequestResponseAgregar requestResponseAgregar = new RequestResponseAgregar();
+		RequestCreateUser requestResponseAgregar = new RequestCreateUser();
 		Mockito.when(service.consultarusuario(cedula)).thenReturn(ResponseEntity.ok(requestResponseAgregar));
-		ResponseEntity<RequestResponseAgregar> respuesta=controller.consultarUsuarioPorCedula(cedula);
+		ResponseEntity<RequestCreateUser> respuesta=controller.consultarUsuarioPorCedula(cedula);
 		assertEquals(respuesta.getBody(), requestResponseAgregar);
 		}
 	@Test

@@ -1,4 +1,4 @@
-package com.bd_tienda_test.Repository;
+package com.tienda.Repository;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.bd_tienda_test.Model.TareasModel;
-import com.bd_tienda_test.Model.UsuarioModel;
+import com.tienda.Model.TareasModel;
+
 @Repository
 public interface TareaRepository extends JpaRepository<TareasModel,String>{
 	@Query(value="select * from tabla_tareas where nombre_tarea=:nombre_tarea or mes_entrega=:mes_entrega",nativeQuery = true	
