@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.tienda.Model.UsuarioModel;
+import com.tienda.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,10 +19,6 @@ import org.springframework.http.ResponseEntity;
 import com.tienda.Controlador.TareaController;
 import com.tienda.Service.TareaService;
 import com.tienda.Model.TareasModel;
-import com.tienda.dto.FiltroDetalle;
-import com.tienda.dto.FiltrosDto;
-import com.tienda.dto.RequestCreateTask;
-import com.tienda.dto.ResponseMessage;
 
 public class TareaTestController {
 	@Mock
@@ -44,9 +41,9 @@ public class TareaTestController {
 	    request.setId_Tarea("123");
 	    request.setNombre_Tarea("proxy");
 	    request.setMes_Entrega("marzo");
-	    
-	    Mockito.when(service.agregarTarea(request)).thenReturn(ResponseEntity.ok().body(request));
-	    ResponseEntity<Object>respuesta=controller.AgregarTarea(request);
+		ResponseCreateTask response = new ResponseCreateTask();
+	    Mockito.when(service.agregarTarea(request)).thenReturn(ResponseEntity.ok().body(response));
+	    ResponseEntity<ResponseCreateTask> respuesta = controller.AgregarTarea(request);
 	    assertEquals(respuesta.getStatusCode(), HttpStatus.OK);
 	    assertEquals(respuesta.getBody().getClass(), RequestCreateTask.class);
 	    assertEquals(request, respuesta.getBody());
