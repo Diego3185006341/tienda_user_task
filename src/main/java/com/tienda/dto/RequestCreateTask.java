@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Builder
-public class RequestCreateTarea {
+public class RequestCreateTask {
 	private String id_Tarea;
 	private String nombre_Tarea;
 	private String mes_Entrega;

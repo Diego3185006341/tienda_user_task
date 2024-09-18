@@ -2,11 +2,12 @@ package com.tienda.Service;
 
 import java.util.List;
 
+import com.tienda.dto.ResponseCreateTask;
 import org.springframework.http.ResponseEntity;
 
 import com.tienda.Model.TareasModel;
 import com.tienda.dto.FiltrosDto;
-import com.tienda.dto.RequestCreateTarea;
+import com.tienda.dto.RequestCreateTask;
 import com.tienda.dto.ResponseMessage;
 
 public interface TareaService {
@@ -15,13 +16,13 @@ public interface TareaService {
 
 	ResponseEntity<List<TareasModel>> listarTarea();
 
-	ResponseEntity<Object> agregarTarea(RequestCreateTarea request);
+	ResponseEntity<ResponseCreateTask> agregarTarea(RequestCreateTask request);
 
 
 
-	ResponseEntity<RequestCreateTarea> consultarTareaid(String id);
+	ResponseEntity<RequestCreateTask> consultarTareaid(String id);
 
-	ResponseEntity<Object> modificarTarea(String id, RequestCreateTarea request);
+	ResponseEntity<Object> modificarTarea(String id, RequestCreateTask request);
 
 	ResponseEntity<ResponseMessage> deleteTarea(String id);
 
