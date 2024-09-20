@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.tienda.Model.UsuarioModel;
 import com.tienda.Service.ITiendaService;
+import com.tienda.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,6 @@ import org.springframework.stereotype.Service;
 import com.tienda.Service.TareaService;
 import com.tienda.Model.TareasModel;
 import com.tienda.Repository.TareaRepository;
-import com.tienda.dto.FiltroDetalle;
-import com.tienda.dto.FiltrosDto;
-import com.tienda.dto.RequestCreateTarea;
-import com.tienda.dto.ResponseMessage;
 
 import lombok.extern.slf4j.Slf4j;
 @Service
@@ -31,11 +28,13 @@ public class TareaServiceimp implements TareaService{
 	TareaRepository tarear;
 	public final ITiendaService iTiendaService;
 
+
+
 	@Override
 	public ResponseEntity<List<TareasModel>> listarTarea() {
 		// TODO Auto-generated method stub
 			try {
-			List<TareasModel> tarea =new ArrayList<TareasModel>();
+			List<TareasModel> tarea =new ArrayList<>();
 			
 			tarear.findAll().forEach(tarea ::add);
 			return new ResponseEntity<>(tarea,HttpStatus.OK);
@@ -47,37 +46,43 @@ public class TareaServiceimp implements TareaService{
 	}
 
 	@Override
-	public ResponseEntity<Object> agregarTarea(RequestCreateTarea request) {
+	public ResponseEntity<ResponseCreateTask> agregarTarea(RequestCreateTask request) {
 		// TODO Auto-generated method stub
 		try {
-			Optional<TareasModel> u = tarear.findById(request.getId_Tarea());
-				
-			if(u.isPresent()) {
-				
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			
-			}else {
-
+			 tarear.findById(request.getId_Tarea())
+					.ifPresent(tareasModel -> {
+						throw new IllegalArgumentException("task with ID " + request.getId_Tarea() + " already exists");
+					});
 				UsuarioModel user = iTiendaService.getUsuario(request.getUsuario_cedula());
-
-				tarear.save(TareasModel.builder()
-					.id_Tarea(request.getId_Tarea())
-					.nombre_Tarea(request.getNombre_Tarea())
-					.mes_Entrega(request.getMes_Entrega())
-								.usuario(user)
-					.build());
-					
-			return new ResponseEntity<>(request,HttpStatus.CREATED);
-			
-			
-			}	
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+				TareasModel buildTask = getBuildTask(request, user);
+				tarear.save(buildTask);
+			return new ResponseEntity<>(ResponseCreateTask.
+					builder()
+					.code("200")
+					.message("SUCCESS")
+					.task(buildTask)
+					.build(), HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(ResponseCreateTask.
+					builder()
+					.code("400")
+					.message(e.getMessage())
+					.build(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	private static TareasModel getBuildTask(RequestCreateTask request, UsuarioModel user) {
+		return TareasModel.builder()
+				.id_Tarea(request.getId_Tarea())
+				.nombre_Tarea(request.getNombre_Tarea())
+				.mes_Entrega(request.getMes_Entrega())
+				.usuario(user)
+				.build();
+	}
+
 	@Override
-	public ResponseEntity<RequestCreateTarea> consultarTareaid(String id) {
+	public ResponseEntity<RequestCreateTask> consultarTareaid(String id) {
 		// TODO Auto-generated method stub
 		 try {
 			   Optional<TareasModel>u=tarear.findById(id);
@@ -88,7 +93,7 @@ public class TareaServiceimp implements TareaService{
 				}
 				else {
 					TareasModel consulta=u.get();
-					RequestCreateTarea respuesta=new RequestCreateTarea();
+					RequestCreateTask respuesta=new RequestCreateTask();
 					respuesta.setId_Tarea(consulta.getId_Tarea());
 					respuesta.setNombre_Tarea(consulta.getNombre_Tarea());
 					respuesta.setMes_Entrega(consulta.getMes_Entrega());
@@ -103,7 +108,7 @@ public class TareaServiceimp implements TareaService{
 	}
 
 	@Override
-	public ResponseEntity<Object> modificarTarea(String id, RequestCreateTarea request) {
+	public ResponseEntity<Object> modificarTarea(String id, RequestCreateTask request) {
 		// TODO Auto-generated method stub
 		try {
 			Optional<TareasModel>u=tarear.findById(id);
@@ -159,13 +164,13 @@ public class TareaServiceimp implements TareaService{
 				nombre_tarea = obtenerFiltros.get("nombre_tarea") != null?(obtenerFiltros.get("nombre_tarea"))
 						: null;
 				mes_entrega = obtenerFiltros.get("mes_entrega")!= null?(obtenerFiltros.get("mes_entrega"))
-						: null; ;
+						: null;
 			}
 
 			List<TareasModel> consultaData = tarear.consultarTarea(nombre_tarea,mes_entrega);
 			
-			List<RequestCreateTarea> respuesta = new ArrayList<>();
-			consultaData.forEach(value -> respuesta.add(RequestCreateTarea.builder().id_Tarea(value.getId_Tarea())
+			List<RequestCreateTask> respuesta = new ArrayList<>();
+			consultaData.forEach(value -> respuesta.add(RequestCreateTask.builder().id_Tarea(value.getId_Tarea())
 					.nombre_Tarea(value.getNombre_Tarea()).mes_Entrega(value.getMes_Entrega())
 					.build()));
 

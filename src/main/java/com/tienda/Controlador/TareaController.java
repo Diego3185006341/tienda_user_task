@@ -2,6 +2,7 @@ package com.tienda.Controlador;
 
 import java.util.List;
 
+import com.tienda.dto.ResponseCreateTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tienda.Service.TareaService;
 import com.tienda.Model.TareasModel;
 import com.tienda.dto.FiltrosDto;
-import com.tienda.dto.RequestCreateTarea;
+import com.tienda.dto.RequestCreateTask;
 import com.tienda.dto.ResponseMessage;
 @RestController
 @RequestMapping("/api")
@@ -30,17 +31,17 @@ public class TareaController {
 		return servicetarea.listarTarea();
 	}
 	@PostMapping("/agregarTarea")
-	public ResponseEntity<Object> AgregarTarea(@RequestBody RequestCreateTarea request) {
+	public ResponseEntity<ResponseCreateTask> AgregarTarea(@RequestBody RequestCreateTask request) {
 		
 		return servicetarea.agregarTarea(request);
 	}
 	@PutMapping("/modificarTarea/{id}")
-	public ResponseEntity<Object> modificarTarea (@PathVariable String id,@RequestBody RequestCreateTarea request) {
+	public ResponseEntity<Object> modificarTarea (@PathVariable String id,@RequestBody RequestCreateTask request) {
 		
 		return servicetarea.modificarTarea(id,request );
 	}
 	@GetMapping ("/consultarTarea/{id}")
-	public ResponseEntity<RequestCreateTarea> consultarTareaPorid (@PathVariable String id)
+	public ResponseEntity<RequestCreateTask> consultarTareaPorid (@PathVariable String id)
 	{
 		return  servicetarea.consultarTareaid(id);
 	}
