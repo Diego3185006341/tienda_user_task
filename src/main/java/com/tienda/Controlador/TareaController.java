@@ -54,6 +54,5 @@ public class TareaController {
 	@GetMapping("/filtrosTarea")
 	public  ResponseEntity<Object> consultafiltrosTarea (@RequestBody FiltrosDto request ) {
 		return servicetarea.consultafiltros(request);
-		
 	}
 }
