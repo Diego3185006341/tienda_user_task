@@ -32,7 +32,6 @@ public class UsuarioControlador {
 	@Autowired
 	private IUsuarioService serviceUsuario;
 
-	
 
 	
 	@GetMapping("/listarUsuario")
