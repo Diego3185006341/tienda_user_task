@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.tienda.Model.UsuarioModel;
+import com.tienda.Model.UserEntity;
 import com.tienda.Service.ITiendaService;
 import com.tienda.dto.*;
 import lombok.AllArgsConstructor;
@@ -53,7 +53,7 @@ public class TareaServiceimp implements TareaService{
 					.ifPresent(tareasModel -> {
 						throw new IllegalArgumentException("task with ID " + request.getId_Tarea() + " already exists");
 					});
-				UsuarioModel user = iTiendaService.getUsuario(request.getUsuario_cedula());
+				UserEntity user = iTiendaService.getUsuario(request.getUsuario_cedula());
 				TareasModel buildTask = getBuildTask(request, user);
 				tarear.save(buildTask);
 			return new ResponseEntity<>(ResponseCreateTask.
@@ -72,7 +72,7 @@ public class TareaServiceimp implements TareaService{
 		}
 	}
 
-	private static TareasModel getBuildTask(RequestCreateTask request, UsuarioModel user) {
+	private static TareasModel getBuildTask(RequestCreateTask request, UserEntity user) {
 		return TareasModel.builder()
 				.id_Tarea(request.getId_Tarea())
 				.nombre_Tarea(request.getNombre_Tarea())

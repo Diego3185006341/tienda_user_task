@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
-import com.tienda.Model.UsuarioModel;
-import com.tienda.Repository.UsuarioRepository;
+import com.tienda.Model.UserEntity;
+import com.tienda.Repository.UserRepository;
 import com.tienda.Service.imp.UsuarioServiceimp;
 import com.tienda.dto.FiltroDetalle;
 import com.tienda.dto.FiltrosDto;
@@ -28,15 +28,15 @@ import java.util.Optional;
 
 public class UsuarioTestImp {
 	@Mock
-	UsuarioRepository mockrepo;
+	UserRepository mockrepo;
 
 	@InjectMocks
 	UsuarioServiceimp mockusuarioimp;
 	
 	@Mock
-	 UsuarioModel usuariomodel;
+    UserEntity usuariomodel;
 	@Mock
-	 UsuarioModel mockusuariomodel;
+    UserEntity mockusuariomodel;
 
 
 	@BeforeEach
@@ -61,7 +61,7 @@ public class UsuarioTestImp {
         when(mockrepo.findById("123")).thenReturn(Optional.empty());
 
         // When
-        ResponseEntity<Object> response = mockusuarioimp.agregarUsuario(request);
+        ResponseEntity<Object> response = mockusuarioimp.saveUser(request);
 
         // Then
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -83,12 +83,12 @@ public class UsuarioTestImp {
         request.setUsuario("johndoe");
         request.setClave_Usuario("password");
 
-        UsuarioModel usuario = new UsuarioModel();
+        UserEntity usuario = new UserEntity();
         when(mockrepo.findById(cedula)).thenReturn(Optional.of(usuario));
         when(mockrepo.save(usuario)).thenReturn(usuario);
 
         // When
-        ResponseEntity<Object> response = mockusuarioimp.modificarUsuario(cedula,request);
+        ResponseEntity<Object> response = mockusuarioimp.updateUser(cedula,request);
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -99,18 +99,18 @@ public class UsuarioTestImp {
 	void consultarUsuario() {
 	       String cedula = "123";
 
-	        UsuarioModel usuario = new UsuarioModel();
+	        UserEntity usuario = new UserEntity();
 	        usuario.setCedula_Usuario("123");
 	        usuario.setNombre_Usuario("John Doe");
 	        usuario.setCorreo_Usuario("johndoe@example.com");
-	        usuario.setUsuario("johndoe");
+	        usuario.setUser("johndoe");
 	        usuario.setClave_Usuario("password");
 	        usuario.setFecha_Ingreso(LocalDate.parse("2022-01-01"));
 
 	        when(mockrepo.findById(cedula)).thenReturn(Optional.of(usuario));
 
 	        // When
-	        ResponseEntity<RequestCreateUser> response = mockusuarioimp.consultarusuario(cedula);
+	        ResponseEntity<RequestCreateUser> response = mockusuarioimp.findUserByIdentification(cedula);
 
 	        // Then
 	        assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -118,7 +118,7 @@ public class UsuarioTestImp {
 	        assertEquals(usuario.getCedula_Usuario(), requestResponseAgregar.getCedula_Usuario());
 	        assertEquals(usuario.getNombre_Usuario(), requestResponseAgregar.getNombre_Usuario());
 	        assertEquals(usuario.getCorreo_Usuario(), requestResponseAgregar.getCorreo_Usuario());
-	        assertEquals(usuario.getUsuario(), requestResponseAgregar.getUsuario());
+	        assertEquals(usuario.getUser(), requestResponseAgregar.getUsuario());
 	        assertEquals(usuario.getClave_Usuario(), requestResponseAgregar.getClave_Usuario());
 	        assertEquals(usuario.getFecha_Ingreso(), requestResponseAgregar.getFecha_Ingreso());
 		
@@ -139,7 +139,7 @@ public class UsuarioTestImp {
 		String cedula="00001";
 
 	        // When
-	        ResponseEntity<ResponseMessage> response = mockusuarioimp.deleteUsuario(cedula);
+	        ResponseEntity<ResponseMessage> response = mockusuarioimp.deleteUser(cedula);
 
 	        // Then
 	        verify(mockrepo).deleteById(cedula);
@@ -158,11 +158,11 @@ public class UsuarioTestImp {
 		request.setFiltros(filtros);
 
 		
-		    UsuarioModel usuario = new UsuarioModel();
+		    UserEntity usuario = new UserEntity();
 		    usuario.setCedula_Usuario("123");
 		    usuario.setNombre_Usuario("John Doe");
 		    usuario.setCorreo_Usuario("johndoe@example.com");
-		    usuario.setUsuario("johndoe");
+		    usuario.setUser("johndoe");
 		    usuario.setFecha_Ingreso(LocalDate.parse("2022-01-01"));
 		    
 		    //mocking the repository behavior

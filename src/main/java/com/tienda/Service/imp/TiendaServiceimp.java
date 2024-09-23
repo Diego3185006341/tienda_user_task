@@ -1,12 +1,9 @@
 package com.tienda.Service.imp;
 
-import com.tienda.Model.UsuarioModel;
-import com.tienda.Repository.UsuarioRepository;
+import com.tienda.Model.UserEntity;
+import com.tienda.Repository.UserRepository;
 import com.tienda.Service.ITiendaService;
-import com.tienda.dto.ResponseMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,11 +12,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TiendaServiceimp implements ITiendaService {
 
-    public final UsuarioRepository usuarioR;
+    public final UserRepository usuarioR;
 
     @Override
-    public UsuarioModel getUsuario(String cedula) {
-        Optional<UsuarioModel> usuarioEntity = usuarioR.findById(cedula);
+    public UserEntity getUsuario(String cedula) {
+        Optional<UserEntity> usuarioEntity = usuarioR.findById(cedula);
 
         if (!usuarioEntity.isPresent()){
            throw new RuntimeException("not user found for this cedula");

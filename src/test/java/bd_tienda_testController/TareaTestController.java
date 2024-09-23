@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
-import com.tienda.Model.UsuarioModel;
+import com.tienda.Model.UserEntity;
 import com.tienda.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,7 +78,7 @@ public class TareaTestController {
 	    // Given
 	    FiltrosDto request = new FiltrosDto();
 	    request.setFiltros(Arrays.asList(new FiltroDetalle("nombre_tarea", "diego")));
-		UsuarioModel usuarioModel = UsuarioModel.builder().build();
+		UserEntity usuarioModel = UserEntity.builder().build();
 
 
 	    List<TareasModel> expectedData = Arrays.asList(

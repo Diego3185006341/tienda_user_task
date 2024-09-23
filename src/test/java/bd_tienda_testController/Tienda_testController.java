@@ -9,9 +9,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.tienda.Controlador.UsuarioControlador;
-import com.tienda.Service.IUsuarioService;
-import com.tienda.Model.UsuarioModel;
+import com.tienda.Controlador.UserController;
+import com.tienda.Service.IUserService;
+import com.tienda.Model.UserEntity;
 import com.tienda.dto.FiltroDetalle;
 import com.tienda.dto.FiltrosDto;
 import com.tienda.dto.RequestCreateUser;
@@ -28,13 +28,13 @@ import java.util.List;
 @Data
 public class Tienda_testController {
 	@Mock
-	IUsuarioService service;
+	IUserService service;
 	@Mock
-	ResponseEntity<UsuarioModel> usuariom;
+	ResponseEntity<UserEntity> usuariom;
 
 
 	@InjectMocks
-	UsuarioControlador controller;
+	UserController controller;
 	
 	@BeforeEach
 	public void setUp()throws Exception {
@@ -50,8 +50,8 @@ public class Tienda_testController {
 	    request.setUsuario("johndoe");
 	    request.setClave_Usuario("password");
 	    request.setFecha_Ingreso(LocalDate.now());
-	    Mockito.when(service.agregarUsuario(request)).thenReturn(ResponseEntity.ok().body(request));
-	    ResponseEntity<Object>respuesta=controller.AgregarUsuario(request);
+	    Mockito.when(service.saveUser(request)).thenReturn(ResponseEntity.ok().body(request));
+	    ResponseEntity<Object>respuesta=controller.saveUser(request);
 	    assertEquals(respuesta.getStatusCode(), HttpStatus.OK);
 	    assertEquals(respuesta.getBody().getClass(), RequestCreateUser.class);
 	    assertEquals(request, respuesta.getBody());
@@ -60,8 +60,8 @@ public class Tienda_testController {
 	void modificarUsuario(){
 	RequestCreateUser request = new RequestCreateUser();
 	String Cedula="01233";
-	Mockito.when(service.modificarUsuario(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestCreateUser.builder().build()));
-	ResponseEntity<Object>respuesta=controller.modificarUsuario(Cedula,request);
+	Mockito.when(service.updateUser(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestCreateUser.builder().build()));
+	ResponseEntity<Object>respuesta=controller.updateUser(Cedula,request);
 	assertEquals(HttpStatus.OK, respuesta.getStatusCode());
 	assertEquals(RequestCreateUser.class, respuesta.getBody().getClass());
 	}
@@ -69,16 +69,16 @@ public class Tienda_testController {
 	void consultarUsuario(){
 		String cedula="00001";
 		RequestCreateUser requestResponseAgregar = new RequestCreateUser();
-		Mockito.when(service.consultarusuario(cedula)).thenReturn(ResponseEntity.ok(requestResponseAgregar));
-		ResponseEntity<RequestCreateUser> respuesta=controller.consultarUsuarioPorCedula(cedula);
+		Mockito.when(service.findUserByIdentification(cedula)).thenReturn(ResponseEntity.ok(requestResponseAgregar));
+		ResponseEntity<RequestCreateUser> respuesta=controller.findUserByIdentification(cedula);
 		assertEquals(respuesta.getBody(), requestResponseAgregar);
 		}
 	@Test
 	void deleteUsuario(){
 
 	String Cedula="00001";
-	Mockito.when(service.deleteUsuario(Cedula)).thenReturn(ResponseEntity.ok().body(ResponseMessage.builder().build()));
-	ResponseEntity<ResponseMessage> respuesta=controller.deleteUsuario(Cedula);
+	Mockito.when(service.deleteUser(Cedula)).thenReturn(ResponseEntity.ok().body(ResponseMessage.builder().build()));
+	ResponseEntity<ResponseMessage> respuesta=controller.deleteUser(Cedula);
 	assertEquals(respuesta.getBody().getClass(),ResponseMessage.class);
 	}
 	@Test
@@ -87,8 +87,8 @@ public class Tienda_testController {
 	    FiltrosDto request = new FiltrosDto();
 	    request.setFiltros(Arrays.asList(new FiltroDetalle("fecha_ingreso", "2022-01-01")));
 
-	    List<UsuarioModel> expectedData = Arrays.asList(
-	        new UsuarioModel("123", "diego", "d@example.com", "ddoe", "password", LocalDate.parse("2022-01-01")));
+	    List<UserEntity> expectedData = Arrays.asList(
+	        new UserEntity("123", "diego", "d@example.com", "ddoe", "password", LocalDate.parse("2022-01-01")));
 
 	    // When
 	    Mockito.when(service.consultafiltros(request)).thenReturn(ResponseEntity.ok().body(expectedData));

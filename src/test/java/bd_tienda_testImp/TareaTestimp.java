@@ -19,7 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.tienda.Model.TareasModel;
-import com.tienda.Model.UsuarioModel;
+import com.tienda.Model.UserEntity;
 import com.tienda.Repository.TareaRepository;
 import com.tienda.Service.imp.TareaServiceimp;
 
@@ -33,7 +33,7 @@ public class TareaTestimp {
 	@Mock
 	 TareasModel tareamodel;
 	@Mock
-	 UsuarioModel mockusuariomodel;
+    UserEntity mockusuariomodel;
 
 
 	@BeforeEach

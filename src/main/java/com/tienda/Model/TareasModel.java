@@ -26,6 +26,6 @@ public class TareasModel {
 
 	@OneToOne
 	@JoinColumn(name = "cedula_usuario")
-	public UsuarioModel usuario;
+	public UserEntity usuario;
 
 }
