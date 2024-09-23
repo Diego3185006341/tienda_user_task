@@ -2,8 +2,7 @@ package com.store.Utils;
 
 import com.store.Model.TaskEntity;
 import com.store.Model.UserEntity;
-import com.store.dto.RequestCreateTask;
-import com.store.dto.RequestCreateUser;
+import com.store.dto.*;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
@@ -11,11 +10,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Mappers {
 
-    public static TaskEntity getBuildTask(RequestCreateTask request, UserEntity user) {
+    public static TaskEntity getBuildTask(RequestCreateTask request) {
         return TaskEntity.builder()
                 .taskName(request.getTask_name())
                 .deliveryMonth(request.getDelivery_month())
-                .userID(user.getUserIdentification())
+                .userID(request.getUser_id())
                 .build();
     }
 
@@ -27,6 +26,14 @@ public class Mappers {
                 .user(request.getUser())
                 .password(request.getPassword())
                 .entryDate((LocalDate.now()))
+                .build();
+    }
+
+    public static TaskDtoResponse getBuildResponseRetrieveAll(TaskEntity task) {
+        return TaskDtoResponse.builder()
+                .task_id(task.getId())
+                .task_name(task.getTaskName())
+                .user_id(task.getUserID())
                 .build();
     }
 

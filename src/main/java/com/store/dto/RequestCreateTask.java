@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RequestCreateTask {
+
+	@JsonProperty("id")
+	private String id;
 	@JsonProperty("task_name")
 	private String task_name;
 	@JsonProperty("delivery_month")

@@ -57,9 +57,9 @@ public class TareaTestController {
 	@Test
 	void consultarTarea(){
 		UUID cedula= UUID.randomUUID();
-		RequestCreateTask requestResponseAgregar = new RequestCreateTask();
+		ResponseGetTaskId requestResponseAgregar = new ResponseGetTaskId();
 		Mockito.when(service.findByTaskId(cedula)).thenReturn(ResponseEntity.ok(requestResponseAgregar));
-		ResponseEntity<RequestCreateTask> respuesta=controller.findByTaskId(cedula);
+		ResponseEntity<ResponseGetTaskId> respuesta=controller.findByTaskId(cedula);
 		assertEquals(respuesta.getBody(), requestResponseAgregar);
 		}
 	@Test

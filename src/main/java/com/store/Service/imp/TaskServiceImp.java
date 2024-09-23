@@ -1,14 +1,11 @@
 package com.store.Service.imp;
 
 import com.store.Model.TaskEntity;
-import com.store.Model.UserEntity;
 import com.store.Repository.TaskRepository;
 import com.store.Service.ITiendaService;
 import com.store.Service.TaskService;
 import com.store.Utils.Mappers;
-import com.store.dto.RequestCreateTask;
-import com.store.dto.ResponseCreateTask;
-import com.store.dto.ResponseMessage;
+import com.store.dto.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -31,11 +29,18 @@ public class TaskServiceImp implements TaskService {
 
 
     @Override
-    public ResponseEntity<List<TaskEntity>> retrieveAllTasks() {
+    public ResponseEntity<ResponseRetrieveAllTask> retrieveAllTasks() {
         // TODO Auto-generated method stub
         try {
-            List<TaskEntity> task = new ArrayList<>(tareaRepository.findAll());
-            return new ResponseEntity<>(task, HttpStatus.OK);
+            List<TaskEntity> tasks = new ArrayList<>(tareaRepository.findAll());
+
+            List<TaskDtoResponse> list = tasks.stream().map(Mappers::getBuildResponseRetrieveAll).collect(Collectors.toList());
+            return new ResponseEntity<>(ResponseRetrieveAllTask.
+                    builder()
+                    .code("200")
+                    .message("SUCESS")
+                    .retrieve_tasks(list)
+                    .build(), HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,8 +52,8 @@ public class TaskServiceImp implements TaskService {
     public ResponseEntity<ResponseCreateTask> saveTask(RequestCreateTask request) {
         // TODO Auto-generated method stub
         try {
-            UserEntity user = iTiendaService.getUsuario(request.getUser_id());
-            TaskEntity buildTask = Mappers.getBuildTask(request, user);
+            iTiendaService.getUsuario(request.getUser_id());
+            TaskEntity buildTask = Mappers.getBuildTask(request);
             tareaRepository.save(buildTask);
             return new ResponseEntity<>(ResponseCreateTask.
                     builder()
@@ -67,23 +72,17 @@ public class TaskServiceImp implements TaskService {
 
 
     @Override
-    public ResponseEntity<RequestCreateTask> findByTaskId(UUID id) {
+    public ResponseEntity<ResponseGetTaskId> findByTaskId(UUID id) {
         // TODO Auto-generated method stub
         try {
-            Optional<TaskEntity> u = tareaRepository.findById(id);
-
-            if (u.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-            } else {
-                TaskEntity consulta = u.get();
-                RequestCreateTask respuesta = new RequestCreateTask();
-                respuesta.setTask_name(consulta.getTaskName());
-                respuesta.setDelivery_month(consulta.getDeliveryMonth());
-
-                return new ResponseEntity<>(respuesta, HttpStatus.OK);
-            }
-
+            TaskEntity task = tareaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not task found"));
+            return new ResponseEntity<>(ResponseGetTaskId.builder()
+                    .code("200")
+                    .message("SUCCESS")
+                    .task_id(task.getId())
+                    .task_name(task.getTaskName())
+                    .user_id(task.getUserID())
+                    .build(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -95,6 +94,9 @@ public class TaskServiceImp implements TaskService {
         // TODO Auto-generated method stub
         try {
             Optional<TaskEntity> u = tareaRepository.findById(id);
+
+
+            TaskEntity buildTask = Mappers.getBuildTask(request);
 
             if (u.isEmpty()) {
 

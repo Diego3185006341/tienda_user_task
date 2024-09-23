@@ -98,13 +98,12 @@ public class TareaTestimp {
 		        when(mockrepo.findById(cedula)).thenReturn(Optional.of(tarea));
 
 		        // When
-		        ResponseEntity<RequestCreateTask> response = mocktareaimp.findByTaskId(cedula);
+		        ResponseEntity<ResponseGetTaskId> response = mocktareaimp.findByTaskId(cedula);
 
 		        // Then
 		        assertEquals(HttpStatus.OK, response.getStatusCode());
-		        RequestCreateTask requestResponseAgregarTarea = response.getBody();
+				ResponseGetTaskId requestResponseAgregarTarea = response.getBody();
 		        assertEquals(tarea.getTaskName(), requestResponseAgregarTarea.getTask_name());
-		        assertEquals(tarea.getDeliveryMonth(), requestResponseAgregarTarea.getDelivery_month());
 		        
 		
 		}
