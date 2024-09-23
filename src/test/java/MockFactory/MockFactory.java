@@ -1,6 +1,6 @@
 package MockFactory;
 
-import com.tienda.Model.UserEntity;
+import com.store.Model.UserEntity;
 
 import java.time.LocalDate;
 

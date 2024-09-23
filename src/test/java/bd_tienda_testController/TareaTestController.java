@@ -2,11 +2,7 @@ package bd_tienda_testController;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.tienda.Model.UserEntity;
-import com.tienda.dto.*;
+import com.store.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,15 +12,15 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.tienda.Controlador.TaskController;
-import com.tienda.Service.TaskService;
-import com.tienda.Model.TareasModel;
+import com.store.Controlador.TaskController;
+import com.store.Service.TaskService;
+import com.store.Model.TaskEntity;
 
 public class TareaTestController {
 	@Mock
 	TaskService service;
 	@Mock
-	ResponseEntity<TareasModel> usuariom;
+	ResponseEntity<TaskEntity> usuariom;
 
 
 	@InjectMocks
@@ -38,7 +34,6 @@ public class TareaTestController {
 	@Test
 	 void agregarTarea(){
 		RequestCreateTask request = new RequestCreateTask();
-	    request.setId("123");
 	    request.setTask_name("proxy");
 	    request.setDelivery_month("marzo");
 		ResponseCreateTask response = new ResponseCreateTask();
@@ -51,7 +46,7 @@ public class TareaTestController {
 	@Test
 	void modificarTarea(){
 	RequestCreateTask request = new RequestCreateTask();
-	String Cedula="01233";
+	Integer Cedula=2;
 	Mockito.when(service.updateTask(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestCreateTask.builder().build()));
 	ResponseEntity<Object>respuesta=controller.updateTask(Cedula,request);
 	assertEquals(HttpStatus.OK, respuesta.getStatusCode());
@@ -59,7 +54,7 @@ public class TareaTestController {
 	}
 	@Test
 	void consultarTarea(){
-		String cedula="00001";
+		Integer cedula= 2;
 		RequestCreateTask requestResponseAgregar = new RequestCreateTask();
 		Mockito.when(service.findByTaskId(cedula)).thenReturn(ResponseEntity.ok(requestResponseAgregar));
 		ResponseEntity<RequestCreateTask> respuesta=controller.findByTaskId(cedula);
@@ -68,7 +63,7 @@ public class TareaTestController {
 	@Test
 	void deleteTarea(){
 
-	String Cedula="00001";
+	Integer Cedula= 2;
 	Mockito.when(service.deleteTaskById(Cedula)).thenReturn(ResponseEntity.ok().body(ResponseMessage.builder().build()));
 	ResponseEntity<ResponseMessage> respuesta=controller.deleteTaskById(Cedula);
 	assertEquals(respuesta.getBody().getClass(),ResponseMessage.class);

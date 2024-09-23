@@ -4,12 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
-import com.tienda.dto.*;
+import com.store.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,20 +15,20 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.tienda.Model.TareasModel;
-import com.tienda.Model.UserEntity;
-import com.tienda.Repository.TareaRepository;
-import com.tienda.Service.imp.TaskServiceImp;
+import com.store.Model.TaskEntity;
+import com.store.Model.UserEntity;
+import com.store.Repository.TaskRepository;
+import com.store.Service.imp.TaskServiceImp;
 
 public class TareaTestimp {
 	@Mock
-	TareaRepository mockrepo;
+	TaskRepository mockrepo;
 
 	@InjectMocks
 	TaskServiceImp mocktareaimp;
 	
 	@Mock
-	 TareasModel tareamodel;
+	TaskEntity tareamodel;
 	@Mock
     UserEntity mockusuariomodel;
 
@@ -48,12 +45,11 @@ public class TareaTestimp {
 		  assertEquals(response.getBody().getClass(),RequestResponseAgregar.class);
 */	
         RequestCreateTask request = new RequestCreateTask();
-        request.setId("04");
         request.setTask_name("proyectoz");
         request.setDelivery_month("abril");
 
 
-        when(mockrepo.findById("123")).thenReturn(Optional.empty());
+        when(mockrepo.findById(2)).thenReturn(Optional.empty());
 
         // When
         ResponseEntity<ResponseCreateTask> response = mocktareaimp.saveTask(request);
@@ -72,12 +68,11 @@ public class TareaTestimp {
 			  ResponseEntity<Object>response=mockusuarioimp.agregarUsuario(RequestResponseAgregar.builder().build());
 			  assertEquals(response.getBody().getClass(),RequestResponseAgregar.class);*/
 			RequestCreateTask request = new RequestCreateTask();
-			String cedula="123";
-	        request.setId("123");
+			Integer cedula=2;
 	        request.setTask_name("proyecto32");
 	        request.setDelivery_month("diciembre");
 	        
-	        TareasModel tarea = new TareasModel();
+	        TaskEntity tarea = new TaskEntity();
 	        when(mockrepo.findById(cedula)).thenReturn(Optional.of(tarea));
 	        when(mockrepo.save(tarea)).thenReturn(tarea);
 
@@ -91,10 +86,10 @@ public class TareaTestimp {
 		}
 		@Test 
 		void consultarTarea() {
-		       String cedula = "123";
+		       Integer cedula = 2;
 
-		        TareasModel tarea = new TareasModel();
-		        tarea.setId("123");
+		        TaskEntity tarea = new TaskEntity();
+		        tarea.setId(cedula);
 		        tarea.setTaskName("Protect");
 		        tarea.setDeliveryMonth("enero");
 		     
@@ -107,7 +102,6 @@ public class TareaTestimp {
 		        // Then
 		        assertEquals(HttpStatus.OK, response.getStatusCode());
 		        RequestCreateTask requestResponseAgregarTarea = response.getBody();
-		        assertEquals(tarea.getId(), requestResponseAgregarTarea.getId());
 		        assertEquals(tarea.getTaskName(), requestResponseAgregarTarea.getTask_name());
 		        assertEquals(tarea.getDeliveryMonth(), requestResponseAgregarTarea.getDelivery_month());
 		        
@@ -115,7 +109,7 @@ public class TareaTestimp {
 		}
 		@Test 
 		void deleteTarea() {
-			String cedula="00001";
+			Integer cedula=2;
 
 		        // When
 		        ResponseEntity<ResponseMessage> response = mocktareaimp.deleteTaskById(cedula);

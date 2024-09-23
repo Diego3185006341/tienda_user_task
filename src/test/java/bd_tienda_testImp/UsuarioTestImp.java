@@ -2,7 +2,7 @@ package bd_tienda_testImp;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import MockFactory.MockFactory;
-import com.tienda.dto.*;
+import com.store.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,9 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
-import com.tienda.Model.UserEntity;
-import com.tienda.Repository.UserRepository;
-import com.tienda.Service.imp.userServiceImp;
+import com.store.Model.UserEntity;
+import com.store.Repository.UserRepository;
+import com.store.Service.imp.userServiceImp;
 
 
 import static org.mockito.Mockito.*;

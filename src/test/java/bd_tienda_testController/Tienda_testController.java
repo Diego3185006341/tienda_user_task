@@ -1,11 +1,11 @@
 package bd_tienda_testController;
 
-import com.tienda.Controlador.UserController;
-import com.tienda.Model.UserEntity;
-import com.tienda.Service.IUserService;
-import com.tienda.dto.RequestCreateUser;
-import com.tienda.dto.ResponseCreateUser;
-import com.tienda.dto.ResponseMessage;
+import com.store.Controlador.UserController;
+import com.store.Model.UserEntity;
+import com.store.Service.IUserService;
+import com.store.dto.RequestCreateUser;
+import com.store.dto.ResponseCreateUser;
+import com.store.dto.ResponseMessage;
 import lombok.Data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
