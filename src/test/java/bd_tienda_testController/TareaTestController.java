@@ -16,6 +16,8 @@ import com.store.Controlador.TaskController;
 import com.store.Service.TaskService;
 import com.store.Model.TaskEntity;
 
+import java.util.UUID;
+
 public class TareaTestController {
 	@Mock
 	TaskService service;
@@ -46,7 +48,7 @@ public class TareaTestController {
 	@Test
 	void modificarTarea(){
 	RequestCreateTask request = new RequestCreateTask();
-	Integer Cedula=2;
+		UUID Cedula=UUID.randomUUID();
 	Mockito.when(service.updateTask(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestCreateTask.builder().build()));
 	ResponseEntity<Object>respuesta=controller.updateTask(Cedula,request);
 	assertEquals(HttpStatus.OK, respuesta.getStatusCode());
@@ -54,7 +56,7 @@ public class TareaTestController {
 	}
 	@Test
 	void consultarTarea(){
-		Integer cedula= 2;
+		UUID cedula= UUID.randomUUID();
 		RequestCreateTask requestResponseAgregar = new RequestCreateTask();
 		Mockito.when(service.findByTaskId(cedula)).thenReturn(ResponseEntity.ok(requestResponseAgregar));
 		ResponseEntity<RequestCreateTask> respuesta=controller.findByTaskId(cedula);
@@ -63,7 +65,7 @@ public class TareaTestController {
 	@Test
 	void deleteTarea(){
 
-	Integer Cedula= 2;
+		UUID Cedula= UUID.randomUUID();
 	Mockito.when(service.deleteTaskById(Cedula)).thenReturn(ResponseEntity.ok().body(ResponseMessage.builder().build()));
 	ResponseEntity<ResponseMessage> respuesta=controller.deleteTaskById(Cedula);
 	assertEquals(respuesta.getBody().getClass(),ResponseMessage.class);

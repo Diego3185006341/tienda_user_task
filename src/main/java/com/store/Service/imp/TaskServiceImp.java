@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -66,7 +67,7 @@ public class TaskServiceImp implements TaskService {
 
 
     @Override
-    public ResponseEntity<RequestCreateTask> findByTaskId(Integer id) {
+    public ResponseEntity<RequestCreateTask> findByTaskId(UUID id) {
         // TODO Auto-generated method stub
         try {
             Optional<TaskEntity> u = tareaRepository.findById(id);
@@ -90,7 +91,7 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
-    public ResponseEntity<Object> updateTask(Integer id, RequestCreateTask request) {
+    public ResponseEntity<Object> updateTask(UUID id, RequestCreateTask request) {
         // TODO Auto-generated method stub
         try {
             Optional<TaskEntity> u = tareaRepository.findById(id);
@@ -115,7 +116,7 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
-    public ResponseEntity<ResponseMessage> deleteTaskById(Integer id) {
+    public ResponseEntity<ResponseMessage> deleteTaskById(UUID id) {
         // TODO Auto-generated method stub
         try {
             ResponseMessage response = new ResponseMessage();

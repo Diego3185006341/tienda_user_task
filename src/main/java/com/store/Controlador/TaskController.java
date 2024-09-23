@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api")
 public class TaskController {
@@ -27,17 +29,17 @@ public class TaskController {
 		return servicetarea.saveTask(request);
 	}
 	@PutMapping("/updateTask/{id}")
-	public ResponseEntity<Object> updateTask(@PathVariable Integer id, @RequestBody RequestCreateTask request) {
+	public ResponseEntity<Object> updateTask(@PathVariable UUID id, @RequestBody RequestCreateTask request) {
 		
 		return servicetarea.updateTask(id,request);
 	}
 	@GetMapping ("/findByTaskId/{id}")
-	public ResponseEntity<RequestCreateTask> findByTaskId(@PathVariable Integer id)
+	public ResponseEntity<RequestCreateTask> findByTaskId(@PathVariable UUID id)
 	{
 		return  servicetarea.findByTaskId(id);
 	}
 	@DeleteMapping ("deleteTaskById/{id}")
-	public ResponseEntity<ResponseMessage> deleteTaskById(@PathVariable Integer id)
+	public ResponseEntity<ResponseMessage> deleteTaskById(@PathVariable UUID id)
 	{
 		return servicetarea.deleteTaskById(id);
 		

@@ -1,6 +1,7 @@
 package com.store.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.store.dto.ResponseCreateTask;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,11 @@ public interface TaskService {
 	ResponseEntity<ResponseCreateTask> saveTask(RequestCreateTask request);
 
 
-	ResponseEntity<RequestCreateTask> findByTaskId(Integer id);
+	ResponseEntity<RequestCreateTask> findByTaskId(UUID id);
 
-	ResponseEntity<Object> updateTask(Integer id, RequestCreateTask request);
+	ResponseEntity<Object> updateTask(UUID id, RequestCreateTask request);
 
-	ResponseEntity<ResponseMessage> deleteTaskById(Integer id);
+	ResponseEntity<ResponseMessage> deleteTaskById(UUID id);
 
 
 }

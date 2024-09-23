@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.store.dto.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +50,7 @@ public class TareaTestimp {
         request.setDelivery_month("abril");
 
 
-        when(mockrepo.findById(2)).thenReturn(Optional.empty());
+        when(mockrepo.findById(UUID.randomUUID())).thenReturn(Optional.empty());
 
         // When
         ResponseEntity<ResponseCreateTask> response = mocktareaimp.saveTask(request);
@@ -68,7 +69,7 @@ public class TareaTestimp {
 			  ResponseEntity<Object>response=mockusuarioimp.agregarUsuario(RequestResponseAgregar.builder().build());
 			  assertEquals(response.getBody().getClass(),RequestResponseAgregar.class);*/
 			RequestCreateTask request = new RequestCreateTask();
-			Integer cedula=2;
+		 	UUID cedula=UUID.randomUUID();
 	        request.setTask_name("proyecto32");
 	        request.setDelivery_month("diciembre");
 	        
@@ -86,7 +87,7 @@ public class TareaTestimp {
 		}
 		@Test 
 		void consultarTarea() {
-		       Integer cedula = 2;
+		       UUID cedula = UUID.randomUUID();
 
 		        TaskEntity tarea = new TaskEntity();
 		        tarea.setId(cedula);
@@ -109,7 +110,7 @@ public class TareaTestimp {
 		}
 		@Test 
 		void deleteTarea() {
-			Integer cedula=2;
+			UUID cedula=UUID.randomUUID();
 
 		        // When
 		        ResponseEntity<ResponseMessage> response = mocktareaimp.deleteTaskById(cedula);
