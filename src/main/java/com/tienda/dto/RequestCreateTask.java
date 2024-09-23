@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RequestCreateTask {
-	private String id_Tarea;
-	private String nombre_Tarea;
-	private String mes_Entrega;
+	private String id;
+	private String task_name;
+	private String delivery_month;
 
-	private String usuario_cedula;
+	private String user_id;
 
 }

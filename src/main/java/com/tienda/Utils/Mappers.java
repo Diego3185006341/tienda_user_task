@@ -13,10 +13,10 @@ public class Mappers {
 
     public static TareasModel getBuildTask(RequestCreateTask request, UserEntity user) {
         return TareasModel.builder()
-                .id_Tarea(request.getId_Tarea())
-                .nombre_Tarea(request.getNombre_Tarea())
-                .mes_Entrega(request.getMes_Entrega())
-                .usuario(user)
+                .id(request.getId())
+                .taskName(request.getTask_name())
+                .deliveryMonth(request.getDelivery_month())
+                .user(user)
                 .build();
     }
 

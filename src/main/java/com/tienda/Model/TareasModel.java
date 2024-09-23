@@ -12,20 +12,20 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @Entity
-@Table(schema="bd_tienda_test", name="tabla_Tareas")
+@Table(schema="bd_tienda_test", name="TASKS")
 public class TareasModel {
 	@Id
-	@Column(name="id_tarea",unique=true) 
-	public String id_Tarea;
+	@Column(name="ID",unique=true)
+	public String id;
 
-	@Column(name="nombre_tarea") 
-	public String nombre_Tarea;
+	@Column(name="TASK_NAME")
+	public String taskName;
 	
-	@Column(name="mes_entrega") 
-	public String mes_Entrega;
+	@Column(name="DELIVERY_MONTH")
+	public String deliveryMonth;
 
 	@OneToOne
-	@JoinColumn(name = "cedula_usuario")
-	public UserEntity usuario;
+	@JoinColumn(name = "USER_ID")
+	public UserEntity user;
 
 }

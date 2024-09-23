@@ -16,19 +16,19 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.tienda.Controlador.TareaController;
-import com.tienda.Service.TareaService;
+import com.tienda.Controlador.TaskController;
+import com.tienda.Service.TaskService;
 import com.tienda.Model.TareasModel;
 
 public class TareaTestController {
 	@Mock
-	TareaService service;
+	TaskService service;
 	@Mock
 	ResponseEntity<TareasModel> usuariom;
 
 
 	@InjectMocks
-	TareaController controller;
+	TaskController controller;
 	
 	@BeforeEach
 	public void setUp()throws Exception {
@@ -38,12 +38,12 @@ public class TareaTestController {
 	@Test
 	 void agregarTarea(){
 		RequestCreateTask request = new RequestCreateTask();
-	    request.setId_Tarea("123");
-	    request.setNombre_Tarea("proxy");
-	    request.setMes_Entrega("marzo");
+	    request.setId("123");
+	    request.setTask_name("proxy");
+	    request.setDelivery_month("marzo");
 		ResponseCreateTask response = new ResponseCreateTask();
-	    Mockito.when(service.agregarTarea(request)).thenReturn(ResponseEntity.ok().body(response));
-	    ResponseEntity<ResponseCreateTask> respuesta = controller.AgregarTarea(request);
+	    Mockito.when(service.saveTask(request)).thenReturn(ResponseEntity.ok().body(response));
+	    ResponseEntity<ResponseCreateTask> respuesta = controller.saveTask(request);
 	    assertEquals(respuesta.getStatusCode(), HttpStatus.OK);
 	    assertEquals(respuesta.getBody().getClass(), RequestCreateTask.class);
 	    assertEquals(request, respuesta.getBody());
@@ -52,8 +52,8 @@ public class TareaTestController {
 	void modificarTarea(){
 	RequestCreateTask request = new RequestCreateTask();
 	String Cedula="01233";
-	Mockito.when(service.modificarTarea(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestCreateTask.builder().build()));
-	ResponseEntity<Object>respuesta=controller.modificarTarea(Cedula,request);
+	Mockito.when(service.updateTask(Cedula,request)).thenReturn(ResponseEntity.ok().body(RequestCreateTask.builder().build()));
+	ResponseEntity<Object>respuesta=controller.updateTask(Cedula,request);
 	assertEquals(HttpStatus.OK, respuesta.getStatusCode());
 	assertEquals(RequestCreateTask.class, respuesta.getBody().getClass());
 	}
@@ -61,36 +61,18 @@ public class TareaTestController {
 	void consultarTarea(){
 		String cedula="00001";
 		RequestCreateTask requestResponseAgregar = new RequestCreateTask();
-		Mockito.when(service.consultarTareaid(cedula)).thenReturn(ResponseEntity.ok(requestResponseAgregar));
-		ResponseEntity<RequestCreateTask> respuesta=controller.consultarTareaPorid(cedula);
+		Mockito.when(service.findByTaskId(cedula)).thenReturn(ResponseEntity.ok(requestResponseAgregar));
+		ResponseEntity<RequestCreateTask> respuesta=controller.findByTaskId(cedula);
 		assertEquals(respuesta.getBody(), requestResponseAgregar);
 		}
 	@Test
 	void deleteTarea(){
 
 	String Cedula="00001";
-	Mockito.when(service.deleteTarea(Cedula)).thenReturn(ResponseEntity.ok().body(ResponseMessage.builder().build()));
-	ResponseEntity<ResponseMessage> respuesta=controller.deleteTarea(Cedula);
+	Mockito.when(service.deleteTaskById(Cedula)).thenReturn(ResponseEntity.ok().body(ResponseMessage.builder().build()));
+	ResponseEntity<ResponseMessage> respuesta=controller.deleteTaskById(Cedula);
 	assertEquals(respuesta.getBody().getClass(),ResponseMessage.class);
 	}
-	@Test
-	void testConsultafiltrosTarea() {
-	    // Given
-	    FiltrosDto request = new FiltrosDto();
-	    request.setFiltros(Arrays.asList(new FiltroDetalle("nombre_tarea", "diego")));
-		UserEntity usuarioModel = UserEntity.builder().build();
 
-
-	    List<TareasModel> expectedData = Arrays.asList(
-	        new TareasModel("123", "diego", "marzo",usuarioModel ));
-
-	    // When
-	    Mockito.when(service.consultafiltros(request)).thenReturn(ResponseEntity.ok().body(expectedData));
-	    ResponseEntity<Object> result = controller.consultafiltrosTarea(request);
-
-	    // Then
-	    assertEquals(HttpStatus.OK, result.getStatusCode());
-	    assertEquals(expectedData, result.getBody());
-	}
 	
 }

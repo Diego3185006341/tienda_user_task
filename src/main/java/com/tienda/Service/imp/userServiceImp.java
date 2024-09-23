@@ -5,6 +5,7 @@ import com.tienda.Repository.UserRepository;
 import com.tienda.Service.IUserService;
 import com.tienda.Utils.Mappers;
 import com.tienda.dto.RequestCreateUser;
+import com.tienda.dto.ResponseCreateTask;
 import com.tienda.dto.ResponseCreateUser;
 import com.tienda.dto.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -62,28 +63,22 @@ public class userServiceImp implements IUserService {
     @Override
     public ResponseEntity<ResponseCreateUser> saveUser(RequestCreateUser request) {
         try {
-            Optional<UserEntity> user = userRepository.findById(request.getUser_identification());
-
-            if (user.isPresent()) {
-
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-            } else {
-
-                UserEntity buildUser = Mappers.getBuildUser(request);
-                userRepository.save(buildUser);
-
+             userRepository.findById(request.getUser_identification()).ifPresent( userEntity ->{
+                throw new IllegalArgumentException("user with this id" + request.getUser_identification().concat("already exits"));
+            });
+                userRepository.save(Mappers.getBuildUser(request));
                 return new ResponseEntity<>(ResponseCreateUser
                         .builder()
                         .code("200")
                         .message("OK")
-                        .user(buildUser)
+                        .user(Mappers.getBuildUser(request))
                         .build(), HttpStatus.CREATED);
-
-
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }	catch (Exception e) {
+            return new ResponseEntity<>(ResponseCreateUser.
+                    builder()
+                    .code("400")
+                    .message(e.getMessage())
+                    .build(), HttpStatus.BAD_REQUEST);
         }
 
     }
