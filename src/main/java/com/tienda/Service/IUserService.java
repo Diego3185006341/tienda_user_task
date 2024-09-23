@@ -3,6 +3,7 @@ package com.tienda.Service;
 import java.util.List;
 
 
+import com.tienda.dto.ResponseCreateUser;
 import org.springframework.http.ResponseEntity;
 
 
@@ -17,7 +18,7 @@ public interface IUserService {
 
 	ResponseEntity<ResponseMessage> deleteUser(String id);
 
-	 ResponseEntity<Object> saveUser(RequestCreateUser request);
+	 ResponseEntity<ResponseCreateUser> saveUser(RequestCreateUser request);
 
 	 ResponseEntity<Object> updateUser(String id, RequestCreateUser request);
 	 ResponseEntity<RequestCreateUser> findUserByIdentification(String id);

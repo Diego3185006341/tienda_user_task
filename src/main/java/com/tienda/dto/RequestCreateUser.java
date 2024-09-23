@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RequestCreateUser {
-	private String cedula_Usuario;
-	private String nombre_Usuario;
-	private String correo_Usuario;
-	private String usuario;
-	private String clave_Usuario;
-	private LocalDate fecha_Ingreso;
+	private String user_identification;
+	private String user_name;
+	private String user_email;
+	private String user;
+	private String password;
+	private LocalDate entry_date;
 	
 
 }

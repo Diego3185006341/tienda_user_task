@@ -18,7 +18,7 @@ public class TiendaServiceimp implements ITiendaService {
     public UserEntity getUsuario(String cedula) {
         Optional<UserEntity> usuarioEntity = usuarioR.findById(cedula);
 
-        if (!usuarioEntity.isPresent()){
+        if (usuarioEntity.isEmpty()){
            throw new RuntimeException("not user found for this cedula");
         }
 

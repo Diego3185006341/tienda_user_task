@@ -2,6 +2,7 @@ package com.tienda.Controlador;
 
 import java.util.List;
 
+import com.tienda.dto.ResponseCreateUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,7 +46,7 @@ public class UserController {
 		
 	}
 	@PostMapping("/saveUser")
-	public ResponseEntity<Object> saveUser(@RequestBody RequestCreateUser request) {
+	public ResponseEntity<ResponseCreateUser> saveUser(@RequestBody RequestCreateUser request) {
 		
 		return iUserService.saveUser(request);
 	}	

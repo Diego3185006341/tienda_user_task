@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.tienda.Model.UserEntity;
 import com.tienda.Service.ITiendaService;
+import com.tienda.Utils.Mappers;
 import com.tienda.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class TareaServiceimp implements TareaService{
 						throw new IllegalArgumentException("task with ID " + request.getId_Tarea() + " already exists");
 					});
 				UserEntity user = iTiendaService.getUsuario(request.getUsuario_cedula());
-				TareasModel buildTask = getBuildTask(request, user);
+				TareasModel buildTask = Mappers.getBuildTask(request, user);
 				tarear.save(buildTask);
 			return new ResponseEntity<>(ResponseCreateTask.
 					builder()
@@ -72,14 +73,7 @@ public class TareaServiceimp implements TareaService{
 		}
 	}
 
-	private static TareasModel getBuildTask(RequestCreateTask request, UserEntity user) {
-		return TareasModel.builder()
-				.id_Tarea(request.getId_Tarea())
-				.nombre_Tarea(request.getNombre_Tarea())
-				.mes_Entrega(request.getMes_Entrega())
-				.usuario(user)
-				.build();
-	}
+
 
 	@Override
 	public ResponseEntity<RequestCreateTask> consultarTareaid(String id) {

@@ -4,6 +4,7 @@ import com.tienda.Controlador.UserController;
 import com.tienda.Model.UserEntity;
 import com.tienda.Service.IUserService;
 import com.tienda.dto.RequestCreateUser;
+import com.tienda.dto.ResponseCreateUser;
 import com.tienda.dto.ResponseMessage;
 import lombok.Data;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,16 +41,20 @@ public class Tienda_testController {
     @Test
     void agregarUsuarios() {
         RequestCreateUser request = new RequestCreateUser();
-        request.setCedula_Usuario("123");
-        request.setNombre_Usuario("John Doe");
-        request.setCorreo_Usuario("johndoe@example.com");
-        request.setUsuario("johndoe");
-        request.setClave_Usuario("password");
-        request.setFecha_Ingreso(LocalDate.now());
-        Mockito.when(service.saveUser(request)).thenReturn(ResponseEntity.ok().body(request));
-        ResponseEntity<Object> respuesta = controller.saveUser(request);
+        request.setUser_identification("123");
+        request.setUser_name("John Doe");
+        request.setUser_email("johndoe@example.com");
+        request.setUser("johndoe");
+        request.setPassword("password");
+        request.setEntry_date(LocalDate.now());
+
+        ResponseCreateUser responseCreateUser = ResponseCreateUser.builder()
+                .build();
+
+        Mockito.when(service.saveUser(request)).thenReturn(ResponseEntity.ok().body(responseCreateUser));
+        ResponseEntity<ResponseCreateUser> respuesta = controller.saveUser(request);
         assertEquals(respuesta.getStatusCode(), HttpStatus.OK);
-        assertEquals(respuesta.getBody().getClass(), RequestCreateUser.class);
+        assertEquals(Objects.requireNonNull(respuesta.getBody()).getClass(), RequestCreateUser.class);
         assertEquals(request, respuesta.getBody());
     }
 
