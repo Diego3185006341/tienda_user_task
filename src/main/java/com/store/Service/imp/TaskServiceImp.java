@@ -96,15 +96,15 @@ public class TaskServiceImp implements TaskService {
             tareaRepository.findById(id).orElseThrow(() -> new NotFoundException("task doesn't exist"));
             TaskEntity buildTaskUpdate = Mappers.getBuildTaskUpdate(request, id);
             tareaRepository.save(buildTaskUpdate);
-                return new ResponseEntity<>(ResponseUpdateTask
-                        .builder()
-                        .code("200")
-                        .message("SUCCESS")
-                        .task(Mappers.getBuildResponseTaskDto(buildTaskUpdate))
-                        .build(), HttpStatus.OK);
+            return new ResponseEntity<>(ResponseUpdateTask
+                    .builder()
+                    .code("200")
+                    .message("SUCCESS")
+                    .task(Mappers.getBuildResponseTaskDto(buildTaskUpdate))
+                    .build(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(ResponseUpdateTask.builder()
-                    .code("400").message(e.getMessage()).build(),HttpStatus.BAD_REQUEST);
+                    .code("400").message(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }
     }
 
