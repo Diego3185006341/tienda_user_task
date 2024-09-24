@@ -43,7 +43,6 @@ public class UserController {
 	public ResponseEntity<ResponseMessage> deleteUser(@PathVariable String id)
 	{
 		return iUserService.deleteUser(id);
-		
 	}
 	@PostMapping("/saveUser")
 	public ResponseEntity<ResponseCreateUser> saveUser(@RequestBody RequestCreateUser request) {
