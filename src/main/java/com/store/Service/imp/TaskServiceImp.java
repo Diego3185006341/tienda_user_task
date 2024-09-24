@@ -107,7 +107,6 @@ public class TaskServiceImp implements TaskService {
                     .code("400").message(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }
     }
-
     @Override
     public ResponseEntity<ResponseMessage> deleteTaskById(UUID id) {
         // TODO Auto-generated method stub
