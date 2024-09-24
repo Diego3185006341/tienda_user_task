@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,7 +34,7 @@ public class TaskServiceImp implements TaskService {
         try {
             List<TaskEntity> tasks = new ArrayList<>(tareaRepository.findAll());
 
-            List<TaskDtoResponse> list = tasks.stream().map(Mappers::getBuildResponseRetrieveAll).collect(Collectors.toList());
+            List<TaskDtoResponse> list = tasks.stream().map(Mappers::getBuildResponseTaskDto).collect(Collectors.toList());
             return new ResponseEntity<>(ResponseRetrieveAllTask.
                     builder()
                     .code("200")
@@ -93,27 +93,18 @@ public class TaskServiceImp implements TaskService {
     public ResponseEntity<Object> updateTask(UUID id, RequestCreateTask request) {
         // TODO Auto-generated method stub
         try {
-            Optional<TaskEntity> u = tareaRepository.findById(id);
-
-
-            TaskEntity buildTask = Mappers.getBuildTask(request);
-
-            if (u.isEmpty()) {
-
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-            } else {
-                TaskEntity usuario = u.get();
-                usuario.setTaskName(request.getTask_name());
-                usuario.setDeliveryMonth(request.getDelivery_month());
-
-
-                return new ResponseEntity<>(tareaRepository.save(usuario), HttpStatus.OK);
-
-
-            }
+            tareaRepository.findById(id).orElseThrow(() -> new NotFoundException("task doesn't exist"));
+            TaskEntity buildTaskUpdate = Mappers.getBuildTaskUpdate(request, id);
+            tareaRepository.save(buildTaskUpdate);
+                return new ResponseEntity<>(ResponseUpdateTask
+                        .builder()
+                        .code("200")
+                        .message("SUCCESS")
+                        .task(Mappers.getBuildResponseTaskDto(buildTaskUpdate))
+                        .build(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ResponseUpdateTask.builder()
+                    .code("400").message(e.getMessage()).build(),HttpStatus.BAD_REQUEST);
         }
     }
 

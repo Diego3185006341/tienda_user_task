@@ -6,6 +6,7 @@ import com.store.dto.*;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @AllArgsConstructor
 public class Mappers {
@@ -29,12 +30,23 @@ public class Mappers {
                 .build();
     }
 
-    public static TaskDtoResponse getBuildResponseRetrieveAll(TaskEntity task) {
+    public static TaskDtoResponse getBuildResponseTaskDto(TaskEntity task) {
         return TaskDtoResponse.builder()
                 .task_id(task.getId())
                 .task_name(task.getTaskName())
                 .user_id(task.getUserID())
                 .build();
     }
+
+    public static TaskEntity getBuildTaskUpdate(RequestCreateTask request, UUID id) {
+        return TaskEntity.builder()
+                .id(id)
+                .taskName(request.getTask_name())
+                .deliveryMonth(request.getDelivery_month())
+                .userID(request.getUser_id())
+                .build();
+    }
+
+
 
 }
