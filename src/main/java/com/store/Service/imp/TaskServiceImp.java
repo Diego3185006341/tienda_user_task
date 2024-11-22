@@ -27,7 +27,6 @@ public class TaskServiceImp implements TaskService {
     TaskRepository tareaRepository;
     public final ITiendaService iTiendaService;
 
-
     @Override
     public ResponseEntity<ResponseRetrieveAllTask> retrieveAllTasks() {
         // TODO Auto-generated method stub
